@@ -3,4 +3,4 @@ AISY is a solution for audio visualization. It's based on Unity Engine (Editor V
 AISY use average value of samples from FFT (Fast Fourier transformation).
 Using this value you can change vectors or colors of objects. You can use mp3 or wav files for visualization. 
 # Gallery
-<img src="gallery/">
+<img src="gallery/main_menu.png">
