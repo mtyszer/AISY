@@ -4,4 +4,4 @@ AISY use average value of samples from FFT (Fast Fourier transformation).
 Using this value you can change vectors or colors of objects. You can use mp3 or wav files for visualization. 
 # Gallery
 <img src="gallery/main_menu.png">
-<video src="gallery/wip1.mp4">
+<video src="gallery/wip_1.mp4">
