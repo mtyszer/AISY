@@ -15,11 +15,13 @@ public class AudioPeer : MonoBehaviour
     GameObject ParSystem;
     Camera Cam;
     public static float[] samples = new float[2048];
-    public static float[] samplesBuffer = new float[2048];
-    public static float[] samplesDecrease = new float[2048];
     public ParticleSystem ParticleSide;
+    [Range(0.0f, 800.0f)]
     public float responsiveness;
     public float maxValue;
+    public float minValue;
+    [Range(0.0f, 3.0f)]
+    public float muffler;
     public Slider slider;
     public Slider volumeSlider;
     public TextMeshProUGUI text;
@@ -51,22 +53,11 @@ public class AudioPeer : MonoBehaviour
     void ParticleSystemTest()
     {
         float sampleAveragetion;
-        float sampleAveragetionBuffer = 0;
-        float sampleAveragetionDecrease = 0;
-        sampleAveragetion = 0.5f + (AverageSampleValue(samples) * responsiveness);
-        if (sampleAveragetion > sampleAveragetionBuffer)
-        {
-            sampleAveragetionBuffer = sampleAveragetion;
-            sampleAveragetionDecrease = 0.005f;
-        }
-        if (sampleAveragetion < sampleAveragetionBuffer)
-        {
-            sampleAveragetionBuffer -= sampleAveragetionDecrease;
-            sampleAveragetionDecrease *= 1.2f;
-        }
+        sampleAveragetion = Mathf.Min(AverageSampleValue(samples) * responsiveness, minValue);
         if (sampleAveragetion >= maxValue)
         {
-            sampleAveragetion = sampleAveragetion - 1.0f;
+            sampleAveragetion -= muffler;
+            Debug.LogWarning($"SampleAvg: {sampleAveragetion}, MaxValue: {maxValue}, MufflerValue: {muffler}");
         }
         ParSystem.transform.localScale = new Vector3(sampleAveragetion, sampleAveragetion, sampleAveragetion);
     }
@@ -149,7 +140,7 @@ public class AudioPeer : MonoBehaviour
     }
     public float AverageSampleValue(params float[] samplesAverage)
     {
-        float result = Mathf.Min(samplesAverage.Average(), responsiveness);
+        float result = samplesAverage.Average();
         return result;
     }
 }
